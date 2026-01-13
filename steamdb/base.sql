@@ -180,4 +180,3 @@ create table compra(
 
 
 
-
