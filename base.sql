@@ -6,7 +6,8 @@ create table usuario (
    nome varchar(100)not null,
    email varchar(100) not null unique,
    senha varchar(100) not null,
-   saldo_carteira decimal(10,2) default 0.00
+   saldo_carteira decimal(10,2) default 0.00,
+   amigos int
 );
 
 create table desenvolvedora(
@@ -31,7 +32,8 @@ create table jogo(
 create table conquista(
    id_conquista serial primary key,
    nome_conquista varchar(100) not null,
-   fk_jogo int references jogo(id_jogo)
+   fk_jogo int references jogo(id_jogo),
+   conquista_usuario int
 );
 
 create table preco(
@@ -61,7 +63,8 @@ create table comentario_avaliacao(
 create table amizade(
     id_amizade serial primary key,
     fk_usuario int references usuario(id_usuario),
-    status varchar(50) not null
+    pedido varchar(50),
+    status varchar(40)
 )
 
 create table jogo_categoria(
@@ -78,8 +81,12 @@ create table pagamento(
     metodo_pagamento varchar(50) not null
 );
 
-
-
+create table compra(
+   id_compra serial primary key,
+   fk_usuario int references usuario(id_usuario),
+   fk_jogo int references jogo(id_jogo),
+   data_compra timestamp default current_timestamp
+);
 
 
 
