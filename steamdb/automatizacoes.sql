@@ -1,13 +1,19 @@
+<<<<<<< HEAD
 -- =========================================================
 -- TRIGGER: Atualização do saldo do usuário após pagamento
 -- =========================================================
 
 -- Trigger que é acionada APÓS um pagamento ser inserido
+=======
+
+-- Atualização do saldo do usuário após a compra
+>>>>>>> 74d244ed315d240cac6686bf0106358e34ac3bd4
 create or replace trigger atualizar_saldo_do_usuario_apos_pagamento
 after insert on pagamento
 for each row 
 execute function atualizar_saldo ();
 
+<<<<<<< HEAD
 -- Função responsável por atualizar o saldo do usuário
 create or replace function atualizar_saldo ()
 returns trigger as $$
@@ -20,10 +26,22 @@ begin
 
         -- Retorna o registro inserido no pagamento
         return new;
+=======
+create or replace  function atualizar_saldo ()
+returns trigger as $$
+
+begin 
+        
+        new.saldo_carteira = old.saldo_carteira - valor;
+
+
+return new;
+>>>>>>> 74d244ed315d240cac6686bf0106358e34ac3bd4
 end;
 
 $$ LANGUAGE plpgsql;
 
+<<<<<<< HEAD
 -- Teste da trigger: inserção de um pagamento
 insert into pagamento(id_pagamento, fk_usuario, valor, data_pagamento, metodo_pagamento)
 values (12, 1, 70.00, '12-01-2026', 'cartão de crédito');
@@ -41,10 +59,25 @@ for each row
 execute function conquistar_desbloquear();
 
 -- Função que verifica se o usuário atingiu a quantidade mínima de horas
+=======
+-- fim da função
+
+inset into pagamento
+
+
+--  Desbloquear conquista ao atingir determinadas horas jogadas
+create or replace trigger desbloquear_conquista
+after  update on biblioteca
+for each row
+execute function conquistar_desbloquear();
+
+
+>>>>>>> 74d244ed315d240cac6686bf0106358e34ac3bd4
 create or replace function conquistar_desbloquear()
 returns trigger as $$
 
 begin 
+<<<<<<< HEAD
         -- Verifica se as horas jogadas atingiram ou ultrapassaram 50
         if (new.horas_jogadas >= 50) then
 
@@ -104,11 +137,49 @@ values (2, 3, '13-01-2026');
 -- =========================================================
 
 -- Trigger acionada ANTES de atualizar o status da amizade
+=======
+       
+
+     if   (horas_jogadas >= 50) THEN
+
+        insert into conquista (conquista_usuario)
+        values('Parabés meu jogador');
+
+    end if;
+    return new;
+    end;
+    $$ LANGUAGE plpgsql;
+
+-- fim da função
+
+
+-- adiciona um jogo na biblioteca após a compra 
+create or replace trigger trg_compra_biblioteca
+after insert on compra
+for each row
+execute function adicionar_jogo_biblioteca();
+
+create or replace function adicionar_jogo_biblioteca()
+returns trigger as $$
+begin
+   insert into biblioteca (fk_usuario, fk_jogo)
+   values (new.fk_usuario, new.fk_jogo);
+
+   return new;
+end;
+$$ language plpgsql;
+
+
+
+
+-- quando o usuario aceita um pedido de amizade, ele adiciona automaticamente na coluna de amigos
+>>>>>>> 74d244ed315d240cac6686bf0106358e34ac3bd4
 create or replace trigger mostrar_amigos
 before update on amizade  
 for each row 
 execute function todos_os_amigos ();
 
+<<<<<<< HEAD
 -- Função que atualiza o número de amigos do usuário
 create or replace function todos_os_amigos ()
 returns trigger as $$
@@ -134,3 +205,20 @@ $$ language plpgsql;
 update amizade
 set status = 'aceita'
 where id_amizade = 1;
+=======
+
+create or replace function todos_os_amigos ()
+returns trigger as $$
+begin
+        
+      if
+            (new.status = 'aceita') then
+        
+        update usuario
+        set amigos = amigos + 1
+        where id_usuario = fk_usuario ;
+      end if;
+      return new;
+      end;
+    $$ language plpgsql;
+>>>>>>> 74d244ed315d240cac6686bf0106358e34ac3bd4
