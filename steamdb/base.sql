@@ -31,9 +31,9 @@ create table jogo(
 
 create table conquista(
    id_conquista serial primary key,
-   nome_conquista varchar(100) not null,
+   nome_conquista varchar(100),
    fk_jogo int references jogo(id_jogo),
-   conquista_usuario int
+   conquista_usuario varchar(50)
 );
 
 create table preco(
@@ -87,6 +87,7 @@ create table compra(
    fk_jogo int references jogo(id_jogo),
    data_compra timestamp default current_timestamp
 );
+
 
 
 
