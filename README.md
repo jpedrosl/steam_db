@@ -102,7 +102,7 @@ Este projeto foi desenvolvido com fins **educacionais**, visando praticar:
 
 ## 👤 Autor
 
-**Nicolas da Silva Floriano**
+**Nicolas da Silva Floriano, João Pedro Souza**
 Estudante de Banco de Dados / Desenvolvimento de Sistemas
 
 ---
